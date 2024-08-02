@@ -4,7 +4,8 @@ namespace: flux-system
 resources:
   - rbac.yaml
   - source.yaml
-  - monitoring.yaml
+  # - monitoring.yaml
+  - openshift-monitoring.yaml
   - admission.yaml
 labels:
   - pairs:
