@@ -6,7 +6,7 @@ metadata:
 spec:
   serviceAccountName: flux-infra
   dependsOn:
-    - name: monitoring-controllers
+    - name: openshift-monitoring-controllers
   interval: 1h
   retryInterval: 2m
   timeout: 10m
