@@ -8,4 +8,4 @@ spec:
     branch: ${GIT_BRANCH}
   secretRef:
     name: flux-system
-  url: https://github.com/controlplaneio-fluxcd/d1-infra.git
+  url: https://github.com/fastlorenzo/d1-infra.git
