@@ -10,5 +10,5 @@ metadata:
 data:
   ENVIRONMENT: "production"
   GIT_BRANCH: "production"
-  CLUSTER_NAME: "prod-us"
-  CLUSTER_DOMAIN: "us.example.com"
+  CLUSTER_NAME: "prod"
+  CLUSTER_DOMAIN: "prod.example.com"
