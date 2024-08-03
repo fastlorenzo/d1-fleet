@@ -16,6 +16,7 @@ metadata:
   name: flux-app-test
 spec:
   serviceAccountName: flux-apps
+  targetNamespace: app-test
   interval: 12h
   retryInterval: 3m
   path: ./components/app-test/${ENVIRONMENT}

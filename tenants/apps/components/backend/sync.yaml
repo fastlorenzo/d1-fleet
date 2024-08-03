@@ -16,6 +16,7 @@ metadata:
   name: flux-backend
 spec:
   serviceAccountName: flux-apps
+  targetNamespace: backend
   interval: 12h
   retryInterval: 3m
   path: ./components/backend/${ENVIRONMENT}

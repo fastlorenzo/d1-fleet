@@ -16,6 +16,7 @@ metadata:
   name: flux-{{ component_name }}
 spec:
   serviceAccountName: flux-apps
+  targetNamespace: {{ component_name }}
   interval: 12h
   retryInterval: 3m
   path: ./components/{{ component_name }}/${ENVIRONMENT}
