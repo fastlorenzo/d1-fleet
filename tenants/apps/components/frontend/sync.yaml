@@ -8,7 +8,7 @@ spec:
     branch: ${GIT_BRANCH}
   secretRef:
     name: flux-apps
-  url: https://github.com/controlplaneio-fluxcd/d1-apps.git
+  url: https://github.com/fastlorenzo/d1-apps.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
