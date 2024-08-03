@@ -63,7 +63,7 @@ if not os.path.exists(templates_dir):
 
 # Get the output directory
 output_dir = os.path.join(
-    current_dir, "..", "..", "tenants", "apps", "components", instance_namespace_name
+    current_dir, "..", "..", "tenants", "apps", "instances", instance_name
 )
 
 # Check if the output directory already exists

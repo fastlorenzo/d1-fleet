@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps-test2
+resources:
+  - namespace.yaml
+  - instance-info.yaml
+  - rbac.yaml
+  - sync.yaml
+labels:
+  - pairs:
+      toolkit.fluxcd.io/tenant: apps
+      app.kubernetes.io/instance-name: test2
