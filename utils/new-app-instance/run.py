@@ -1,8 +1,8 @@
 """
-Script to generate a new app component
+Script to generate a new app instance
 It takes all files from the templates folder and replaces the placeholders
 with the provided values using the jinja2 template engine
-The output folder is ../../tenants/apps/components/{{component_name}}
+The output folder is ../../tenants/apps/components/{{ instance_name }}
 """
 
 import os
@@ -10,9 +10,9 @@ import sys
 import re
 from jinja2 import Environment, FileSystemLoader
 
-# Set to True to overwrite the component if it already exists, False otherwise
+# Set to True to overwrite the instance if it already exists, False otherwise
 OVERWRITE = True
-PREPEND_NAME = "app-"
+PREPEND_NS_NAME = "apps-"
 
 
 def is_valid_k8s_namespace_name(name: str) -> bool:
@@ -27,21 +27,27 @@ def is_valid_k8s_namespace_name(name: str) -> bool:
     return bool(namespace_regex.match(name))
 
 
-# Get the component name from the command line arguments; handle arguments errors
+# Get the instance name from the command line arguments; handle arguments errors
 if len(sys.argv) < 2:
-    print("Component name is required")
+    print("Instance name is required")
     sys.exit(1)
 
-component_name = sys.argv[1]
+instance_name = sys.argv[1]
 
-# Prepend the component name if it doesn't start with it
-if not component_name.startswith(PREPEND_NAME):
-    component_name = PREPEND_NAME + component_name
+# Prepend the instance name if it doesn't start with it to generate the namespace name
+if not instance_name.startswith(PREPEND_NS_NAME):
+    instance_namespace_name = PREPEND_NS_NAME + instance_name
+else:
+    # Save the instance name as the namespace name
+    instance_namespace_name = instance_name
+
+    # Remove the prefix for the instance name
+    instance_name = instance_name[len(PREPEND_NS_NAME) :]
 
 
-# Check the format of the component name
-if not is_valid_k8s_namespace_name(component_name):
-    print(f"Invalid component name: {component_name}")
+# Check the format of the namespace name
+if not is_valid_k8s_namespace_name(instance_namespace_name):
+    print(f"Invalid namespace name: {instance_namespace_name}")
     sys.exit(1)
 
 # Get the current directory
@@ -50,19 +56,19 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Get the templates directory
 templates_dir = os.path.join(current_dir, "templates")
 
-# Check if the component directory exists
+# Check if the templates directory exists
 if not os.path.exists(templates_dir):
     print(f"Templates directory not found: {templates_dir}")
     sys.exit(1)
 
 # Get the output directory
 output_dir = os.path.join(
-    current_dir, "..", "..", "tenants", "apps", "components", component_name
+    current_dir, "..", "..", "tenants", "apps", "components", instance_namespace_name
 )
 
 # Check if the output directory already exists
 if os.path.exists(output_dir) and not OVERWRITE:
-    print(f"Component {component_name} already exists")
+    print(f"Instance {instance_name} already exists in {output_dir}")
     sys.exit(1)
 
 # Create the output directory
@@ -79,7 +85,10 @@ for file in files:
     # Get the template
     template = env.get_template(file)
     # Render the template
-    content = template.render(component_name=component_name)
+    content = template.render(
+        instance_name=instance_name,
+        namespace_name=instance_namespace_name,
+    )
     # Remove the .j2 extension from the file name
     file_name = file.replace(".j2", "")
     target_file = os.path.join(output_dir, file_name)
@@ -92,4 +101,4 @@ for file in files:
     with open(target_file, "w", encoding="utf-8") as f:
         f.write(content)
 
-print(f"Component {component_name} created successfully")
+print(f"App instance {instance_name} created successfully")

@@ -13,13 +13,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-{{ component_name }}
+  name: flux-{{ namespace_name }}
 spec:
   serviceAccountName: flux-apps
-  targetNamespace: {{ component_name }}
+  targetNamespace: {{ namespace_name }}
   interval: 12h
   retryInterval: 3m
-  path: ./components/{{ component_name }}/${ENVIRONMENT}
+  path: ./components/{{ namespace_name }}/${ENVIRONMENT}
   prune: true
   sourceRef:
     kind: GitRepository
@@ -37,3 +37,5 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: flux-runtime-info
+      - kind: ConfigMap
+        name: app-instance-info
